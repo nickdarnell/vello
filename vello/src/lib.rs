@@ -365,6 +365,9 @@ pub struct RenderParams {
     /// The anti-aliasing algorithm. The selected algorithm must have been initialized while
     /// constructing the `Renderer`.
     pub antialiasing_method: AaConfig,
+
+    /// Output image format (defaults to Rgba8 if not specified)
+    pub output_format: crate::recording::ImageFormat,
 }
 
 #[cfg(feature = "wgpu")]
