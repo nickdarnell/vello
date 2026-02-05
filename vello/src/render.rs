@@ -136,20 +136,20 @@ impl Render {
 
         let (layout, ramps, images) = resolver.resolve(encoding, &mut packed);
         let gradient_image = if ramps.height == 0 {
-            ResourceProxy::new_image(1, 1, ImageFormat::Rgba8)
+            ResourceProxy::new_image(1, 1, ImageFormat::Rgba16Float)
         } else {
             let data: &[u8] = bytemuck::cast_slice(ramps.data);
             ResourceProxy::Image(recording.upload_image(
                 ramps.width,
                 ramps.height,
-                ImageFormat::Rgba8,
+                ImageFormat::Rgba16Float,
                 data,
             ))
         };
         let image_atlas = if images.images.is_empty() {
-            ImageProxy::new(1, 1, ImageFormat::Rgba8)
+            ImageProxy::new(1, 1, ImageFormat::Rgba16Float)
         } else {
-            ImageProxy::new(images.width, images.height, ImageFormat::Rgba8)
+            ImageProxy::new(images.width, images.height, ImageFormat::Rgba16Float)
         };
         for image in images.images {
             recording.write_image(image_atlas, image.1, image.2, image.0.clone());
@@ -459,7 +459,7 @@ impl Render {
         recording.free_resource(draw_monoid_buf);
         recording.free_resource(bin_header_buf);
         recording.free_resource(path_buf);
-        let out_image = ImageProxy::new(params.width, params.height, params.output_format);
+        let out_image = ImageProxy::new(params.width, params.height, ImageFormat::Rgba16Float);
         let blend_spill_buf = BufferProxy::new(
             buffer_sizes.blend_spill.size_in_bytes().into(),
             "vello.blend_spill",
