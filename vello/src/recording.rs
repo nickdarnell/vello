@@ -38,6 +38,7 @@ pub struct BufferProxy {
 pub enum ImageFormat {
     Rgba8,
     Bgra8,
+    Rgba16Float,
 }
 
 /// Proxy used as a handle to an image.
@@ -246,6 +247,7 @@ impl ImageFormat {
         match self {
             Self::Rgba8 => wgpu::TextureFormat::Rgba8Unorm,
             Self::Bgra8 => wgpu::TextureFormat::Bgra8Unorm,
+            Self::Rgba16Float => wgpu::TextureFormat::Rgba16Float,
         }
     }
 
@@ -254,6 +256,7 @@ impl ImageFormat {
         match format {
             wgpu::TextureFormat::Rgba8Unorm => Some(Self::Rgba8),
             wgpu::TextureFormat::Bgra8Unorm => Some(Self::Bgra8),
+            wgpu::TextureFormat::Rgba16Float => Some(Self::Rgba16Float),
             _ => None,
         }
     }
